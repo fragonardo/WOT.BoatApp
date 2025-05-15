@@ -1,0 +1,46 @@
+<div #message>
+
+</div>
+<div class="mt-2 col-8 border border-3 rounded p-2 bg-body-tertiary ">
+<form class="mt-5 me-5 ms-5 mb-3" [formGroup]="formBoat" (ngSubmit)="Save()">
+    <h1>Boat details</h1>
+  <div class="form-group mt-3">
+    <label for="identity" class="form-label">identity</label>
+    <input type="text" formControlName="identity"  class="form-control" name="identity" id="identity" aria-describedby="emailHelp" readonly>    
+  </div>
+  <div class="form-group mt-3">
+    <label for="serialNumber" class="form-label">Serial number</label>
+    <input type="text" formControlName="serialNumber" class="form-control" name="serialNumber" id="serialNumber" placeholder="Enter Serial number" >    
+  </div>
+  <div class="row mt-3">
+    <div class="form-group col-md-6">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-control" formControlName = "type" id="type">            
+            <option>Default select</option>
+            @for(type of boatTypes; track type)
+            {
+                <option value={{type.id}}>{{ type.name}}</option>
+            }
+        </select>  
+    </div>
+    <div class="form-group col-md-6">
+        <label for="launchingDate" class="form-label">Lauching date</label>
+        <input type="date" formControlName = "launchingDate" class="form-control" id="launchingDate" placeholder="Lauching date" >    
+    </div>
+  </div>
+  <div class="form-group mt-3">
+    <label for="owner" class="form-label">Owner</label>
+    <input type="text" formControlName = "owner" class="form-control" id="owner" placeholder="Enter owner" >    
+  </div>
+  <div class="form-group mt-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" formControlName = "name" class="form-control" id="name" placeholder="Enter name" >    
+  </div>
+
+  <div class="mt-2 p-2 col-12 d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary col-4 me-2">Submit</button>
+    <button type="Cancel" class="btn btn-primary col-4 me-2" (click)="cancel()">Cancel</button>
+    <button type="Cancel" class="btn btn-danger col-4" (click)="delete()">Delete</button>
+  </div>  
+</form>
+</div>
