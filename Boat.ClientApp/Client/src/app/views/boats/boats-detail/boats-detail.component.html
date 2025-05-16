@@ -1,9 +1,10 @@
-<div #message>
-
-</div>
-<div class="mt-2 col-8 border border-3 rounded p-2 bg-body-tertiary ">
+<div class="border border-3 rounded bg-body-tertiary ">  
+  <div class="modal-header">
+    <h3 class="modal-title">Boat details</h3>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  </div>
 <form class="mt-5 me-5 ms-5 mb-3" [formGroup]="formBoat" (ngSubmit)="Save()">
-    <h1>Boat details</h1>
+    
   <div class="form-group mt-3">
     <label for="identity" class="form-label">identity</label>
     <input type="text" formControlName="identity"  class="form-control" name="identity" id="identity" aria-describedby="emailHelp" readonly>    

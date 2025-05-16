@@ -1,10 +1,7 @@
 ﻿using BoatApp.Application.Handlers;
 using BoatApp.Application.Queries.ViewModels;
-using BoatApp.Domain.Models;
-using BoatApp.Domain.Repository;
 using BoatApp.Infrastructure.Persistence;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BoatApp.Application.Queries.Handlers;

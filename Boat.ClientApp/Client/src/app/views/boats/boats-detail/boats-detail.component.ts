@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { Boat, BoatType } from '../../../Models/Boat';
 import { BoatHttpService } from '../../../Services/BoatHttp.Service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -6,6 +6,8 @@ import { catchError, finalize, identity, map, mergeMap, switchMap, tap } from 'r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { format } from 'date-fns';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-boats-detail',
@@ -29,16 +31,18 @@ export class BoatsDetailComponent implements OnInit {
         launchingDate : new FormControl(),
         type : new FormControl(),
       }); 
+      activeModal = inject(NgbActiveModal);
 
   constructor(private service : BoatHttpService) {}
+  @Input() Id: string|null = null;
 
   ngOnInit(): void {
     
-    const id = this.activatedRoute.snapshot.paramMap.get('id');    
-    if(id !== null && id !== 'new')
+    //const id = this.activatedRoute.snapshot.paramMap.get('id');    
+    if(this.Id !== null)
     {
       this.mode = ModeEdition.modification;
-      this.service.getBoatById$(id)
+      this.service.getBoatById$(this.Id)
         .subscribe((next) => {
           this.boat = next;   
           this.initForm();

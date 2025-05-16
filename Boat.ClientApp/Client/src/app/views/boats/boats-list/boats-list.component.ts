@@ -11,6 +11,7 @@ import { delay, map } from 'rxjs';
 import {NgbActiveModal, NgbConfig} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { GlobalToastService } from '../../../Services/GlobalToastService';
+import { BoatsDetailComponent } from '../boats-detail/boats-detail.component';
 
 @Component({
   selector: 'app-boats-list',
@@ -51,11 +52,14 @@ export class BoatsListComponent implements OnInit {
   }
 
   public onClick(boat : Boat){    
-    this.router.navigate([`boats/${boat.id}`])
+    //this.router.navigate([`boats/${boat.id}`])
+    const modalRef = this.modalService.open(BoatsDetailComponent);
+    modalRef.componentInstance.Id = boat.id;
   }
 
   public AddNew(){
-    this.router.navigate([`boats/new`])
+    //this.router.navigate([`boats/new`])
+    const modalRef = this.modalService.open(BoatsDetailComponent);    
   }
 
   public delete(id: string, content:TemplateRef<any>){
