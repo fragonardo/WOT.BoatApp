@@ -1,13 +1,13 @@
-﻿using BoatApp.Application.Queries.ViewModels;
+﻿using Boat.Shared.Kernel.Extensions;
+using BoatApp.Application.Queries.Result;
+using BoatApp.Application.Queries.ViewModels;
 using MediatR;
 
 namespace BoatApp.Application.Queries;
 
-public record GetAllBoatsQuery : IRequest<IEnumerable<BoatViewModel>>
+public record GetAllBoatsQuery : IRequest<ApiCollectionResult<BoatViewModel>>
 {
-    public string? SerialNumberFilter { get; init; }
-    public string? OwnerFilter { get; init; }
-    public string? NameFilter { get; init; }
-    public int? PageIndex { get; init; }
-    public int? ItemPerPage { get; init; }
+    public string? Filter { get; init; }
+    public int PageIndex { get; init; }
+    public int ItemPerPage { get; init; }
 }

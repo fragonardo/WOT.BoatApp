@@ -7,7 +7,7 @@ import { GlobalToastContainerComponent } from './core/global-toast-container/glo
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, GlobalToastContainerComponent],
+  imports: [RouterOutlet, HeaderComponent,  GlobalToastContainerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

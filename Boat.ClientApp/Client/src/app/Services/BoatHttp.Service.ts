@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from "../../environments/environment.development";
 import { Observable } from "rxjs";
 import { FilterBoatRequest } from "../Requests/FilterBoatRequest";
+import { apiCollectionResult } from "../Models/apiCollectionResult";
 
 @Injectable({
     providedIn: 'root'
@@ -17,11 +18,8 @@ export class BoatHttpService {
 
     constructor(private http : HttpClient){}
     
-    getBoats$() : Observable<Boat[]>{
-        let pageIndex = 2;
-        let itemPerPage = 10;
-        let filter = 'test';
-        return this.http.get<Boat[]>(`${this.apiUrl}?PageIndex=${pageIndex}&ItemPerPage=${itemPerPage}&Filter=${filter}`, this.httpOptions);
+    getBoats$(parameter : QueryParameter) : Observable<apiCollectionResult<Boat>>{        
+        return this.http.get<apiCollectionResult<Boat>>(`${this.apiUrl}?PageIndex=${parameter.pageIndex}&ItemPerPage=${parameter.itemPerPage}&Filter=${parameter.filter}`, this.httpOptions);
     }
 
     
@@ -47,5 +45,10 @@ export class BoatHttpService {
     getBoatType$(): Observable<BoatType[]> {
         return this.http.get<BoatType[]>(`${this.apiUrl}/types`, this.httpOptions);
     }
+}
 
+export interface QueryParameter{
+    pageIndex : number,
+    itemPerPage: number,
+    filter : string
 }

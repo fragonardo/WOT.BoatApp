@@ -4,6 +4,7 @@ using Boat.ApiService.Services;
 using BoatApp.ApiService.Requests;
 using BoatApp.Application.Commands;
 using BoatApp.Application.Queries;
+using BoatApp.Application.Queries.Result;
 using BoatApp.Application.Queries.ViewModels;
 using BoatApp.Domain.Exceptions;
 using BoatApp.Domain.Models;
@@ -29,21 +30,23 @@ public static class BoatEndPoint
         api.MapGet("/types", GetTypes);
 
         api.MapGet("/",
-            async Task<Results<Ok<IEnumerable<BoatViewModel>>, UnauthorizedHttpResult, ProblemHttpResult>>
-            ([FromQuery] int PageIndex, [FromQuery] int ItemPerPage, [FromQuery] string Filter, [AsParameters] ApiBoatServices services) => 
+            async Task<Results<Ok<ApiCollectionResult<BoatViewModel>>, UnauthorizedHttpResult, ProblemHttpResult>>
+            ([FromQuery] int PageIndex, 
+            [FromQuery] int ItemPerPage, 
+            [FromQuery] string Filter, 
+            [AsParameters] ApiBoatServices services,
+            CancellationToken cancellationToken = default) => 
         {
             try
             {
-                var result = await services.Mediator.Send(new GetAllBoatsQuery()
-                //{
-                //    SerialNumberFilter = filter.SerialNumberFilter,
-                //    NameFilter = filter.NameFilter,
-                //    OwnerFilter = filter.OwnerFilter,
-                //    PageIndex = filter.PageIndex,
-                //    ItemPerPage = filter.ItemPerPage
-                //}
-                //, cancellationToken
-                );
+                var query = new GetAllBoatsQuery
+                {
+                    Filter = Filter,
+                    PageIndex = PageIndex,
+                    ItemPerPage = ItemPerPage
+                }; 
+
+                var result = await services.Mediator.Send(query, cancellationToken);
                 return TypedResults.Ok(result);
                
             }
@@ -96,7 +99,7 @@ public static class BoatEndPoint
     }
 
     public static async 
-        Task<Results<Ok<IEnumerable<BoatViewModel>>, UnauthorizedHttpResult, ProblemHttpResult>> 
+        Task<Results<Ok<ApiCollectionResult<BoatViewModel>>, UnauthorizedHttpResult, ProblemHttpResult>> 
         GetBoatsAsync(
         [AsParameters] ApiBoatServices services,
         //[AsParameters] FilterBoatRequest? filter,

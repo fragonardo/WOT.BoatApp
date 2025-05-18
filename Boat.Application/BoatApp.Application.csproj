@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Boat.Domain\BoatApp.Domain.csproj" />
     <ProjectReference Include="..\Boat.Infrastructure\BoatApp.Infrastructure.csproj" />
     <ProjectReference Include="..\Boat.Shared.Application\Boat.Shared.Application.csproj" />
+    <ProjectReference Include="..\Boat.Shared.Kernel\Boat.Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>

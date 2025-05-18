@@ -1,21 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, signal, TemplateRef } from '@angular/core';
 import { Boat, BoatType } from '../../../Models/Boat';
-import { environment } from '../../../../environments/environment.development';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { BoatHttpService } from '../../../Services/BoatHttp.Service';
-import { FilterBoatRequest } from '../../../Requests/FilterBoatRequest';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { delay, map } from 'rxjs';
-import {NgbActiveModal, NgbConfig} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbConfig, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { GlobalToastService } from '../../../Services/GlobalToastService';
 import { BoatsDetailComponent } from '../boats-detail/boats-detail.component';
+import { apiCollectionResult } from '../../../Models/apiCollectionResult';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-boats-list',
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, NgbPaginationModule, ReactiveFormsModule ],
   templateUrl: './boats-list.component.html',
   styleUrl: './boats-list.component.css',
   providers: [NgbModalConfig, NgbModal]
@@ -27,6 +27,11 @@ export class BoatsListComponent implements OnInit {
    private router = inject(Router);
    private toastService = inject(GlobalToastService);
    public boatTypeMap : Map<number, string> = new Map();
+   public page : number = 1;
+   public pageSize : number = 10;
+   public totalItems : number = 0;
+   public filter = new FormControl('');
+
    
    constructor(
     config: NgbModalConfig,
@@ -42,23 +47,17 @@ export class BoatsListComponent implements OnInit {
       this.service.getBoatType$().pipe(
         map((result : BoatType[]) => 
           result.map((x) => this.boatTypeMap.set(x.id, x.name)))          
-        ).subscribe()     
-
-      this.service.getBoats$()
-          .subscribe({
-              next: (result : Boat[]) => { this.boats = result; this.isLoading.set(false) },
-              error: (error: any) => console.error(error)
-          });
+        ).subscribe() ;
+        
+        this.loadBoats();
   }
 
   public onClick(boat : Boat){    
-    //this.router.navigate([`boats/${boat.id}`])
     const modalRef = this.modalService.open(BoatsDetailComponent);
     modalRef.componentInstance.Id = boat.id;
   }
 
   public AddNew(){
-    //this.router.navigate([`boats/new`])
     const modalRef = this.modalService.open(BoatsDetailComponent);    
   }
 
@@ -71,7 +70,25 @@ export class BoatsListComponent implements OnInit {
         //this.service.deleteBoat$(id)
         this.toastService.showDangerMessage(undefined, 'Salut, je suis un toast', 5000 );
       }
-    );
-    
+    );    
+  }
+
+  public onPageChange(){
+    this.loadBoats();
+  }
+
+  public Search(){
+    this.loadBoats();
+  }
+
+  private loadBoats(){
+    this.service.getBoats$({ pageIndex: this.page, itemPerPage: this.pageSize, filter : this.filter.value ?? ''})
+          .subscribe({
+              next: (result : apiCollectionResult<Boat>) => { 
+                this.boats = result.data; 
+                this.totalItems = result.totalCount;
+                this.isLoading.set(false) },
+              error: (error: any) => console.error(error)
+          });
   }
 }

@@ -1,4 +1,6 @@
-﻿using BoatApp.Application.Handlers;
+﻿using Boat.Shared.Kernel.Extensions;
+using BoatApp.Application.Handlers;
+using BoatApp.Application.Queries.Result;
 using BoatApp.Application.Queries.ViewModels;
 using BoatApp.Infrastructure.Persistence;
 using MediatR;
@@ -6,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BoatApp.Application.Queries.Handlers;
 
-public class GetAllBoatQueryHandler : IRequestHandler<GetAllBoatsQuery, IEnumerable<BoatViewModel>>
+public class GetAllBoatQueryHandler : IRequestHandler<GetAllBoatsQuery, ApiCollectionResult<BoatViewModel>>
 {
     private readonly ILogger<CreateBoatCommandHandler> _logger;
     private readonly  BoatDbContext _db;
@@ -17,7 +19,7 @@ public class GetAllBoatQueryHandler : IRequestHandler<GetAllBoatsQuery, IEnumera
         _db = db;
     }
 
-    public async Task<IEnumerable<BoatViewModel>> Handle(GetAllBoatsQuery request, CancellationToken cancellationToken)
+    public async Task<ApiCollectionResult<BoatViewModel>> Handle(GetAllBoatsQuery request, CancellationToken cancellationToken)
     {   
         if(false)// TODO : Tester les droits d'accès
         {
@@ -25,30 +27,24 @@ public class GetAllBoatQueryHandler : IRequestHandler<GetAllBoatsQuery, IEnumera
         }
 
         var query = _db.Boat.AsQueryable();
-
-        if(!string.IsNullOrEmpty(request.SerialNumberFilter))
+        
+        if (!string.IsNullOrEmpty(request.Filter))
         {
-            query = query.Where(x => x.SerialNumber.Contains(request.SerialNumberFilter));
+            query = query.Where(x => 
+                (!string.IsNullOrEmpty(x.Name) && x.Name.Contains(request.Filter))
+                ||(x.SerialNumber.Contains(request.Filter))
+                ||(!string.IsNullOrEmpty(x.Owner) && x.Owner.Contains(request.Filter))                
+            );
         }
 
-        if (!string.IsNullOrEmpty(request.OwnerFilter))
-        {
-            query = query.Where(x => !string.IsNullOrEmpty(x.Owner) &&  x.Owner.Contains(request.OwnerFilter));
-        }
+        var paginatedResult = await query.ToPaginatedListAsync<Domain.Models.Boat>(request.PageIndex, request.ItemPerPage, cancellationToken);
 
-        if (!string.IsNullOrEmpty(request.OwnerFilter))
-        {
-            query = query.Where(x => !string.IsNullOrEmpty(x.Name) && x.Name.Contains(request.NameFilter));
-        }
-
-        var itemPerPage = request.ItemPerPage ?? 9;
-        var PageIndex = request.PageIndex ?? 0;
-
-        var result = query
-            .Skip(itemPerPage * PageIndex)
-            .Take(itemPerPage).ToList()
-            .Select(x => new BoatViewModel(x.Id, x.SerialNumber, x.Type, x.LaunchingDate, x.Owner, x.Name));
-
+        var result = new ApiCollectionResult<BoatViewModel>(
+            paginatedResult.Data.Select(x => new BoatViewModel(x.Id, x.SerialNumber, x.Type, x.LaunchingDate, x.Owner, x.Name)),
+            paginatedResult.PageIndex,
+            paginatedResult.PageSize,
+            paginatedResult.TotalCount);
+        
         return result;            
     }
 }

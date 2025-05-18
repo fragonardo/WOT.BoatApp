@@ -2,10 +2,10 @@
  <br/>
  <div class="row">
     <div class="col-md-9">
-        <input type="text" class="form-control" placeholder="Search" />        
+        <input type="text" [formControl]="filter" class="form-control" placeholder="Search" />        
     </div>
     <div class="col-md-1">
-        <button class="btn btn-primary ">Search</button>
+        <button class="btn btn-primary" (click)="Search()">Search</button>
     </div>
     <div class="col-md-2">
         <button type="button" class="btn btn-primary" (click)="AddNew()" >Add a boat</button>
@@ -46,22 +46,10 @@
         }          
         </tbody>
     </table>
-    @if(boats.length >= 8)
-    {
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-left">
-                <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
-    }
+    <ngb-pagination [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="totalItems"
+                (pageChange)="onPageChange()" />
     
     }
     @else{
