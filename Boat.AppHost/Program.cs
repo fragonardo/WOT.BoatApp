@@ -20,4 +20,9 @@ builder.AddProject<Projects.Boat_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
+builder.AddProject<Projects.Boat_Gateway>("boat-gateway")
+   .WithReference(apiService)
+   .WaitFor(apiService)
+   .WithExternalHttpEndpoints();
+
 builder.Build().Run();

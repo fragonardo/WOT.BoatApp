@@ -1,0 +1,6 @@
+@Boat.Gateway_HostAddress = http://localhost:5161
+
+GET {{Boat.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
