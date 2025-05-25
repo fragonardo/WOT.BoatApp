@@ -34,8 +34,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{DDADCA5D-2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boat.Shared.Kernel", "Boat.Shared.Kernel\Boat.Shared.Kernel.csproj", "{7C6A0967-D16F-4D48-943D-CD51123495B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boat.Gateway", "Boat.Gateway\Boat.Gateway.csproj", "{E64D6A6A-2F64-4A81-ACA2-DDC5BB642737}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Client", "Boat.ClientApp\Client\", "{5DDDA797-62D7-3212-0E7A-6D2F46AD7208}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
@@ -54,7 +52,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Client", "Boat.ClientApp\Cl
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "51937"
+		SlnRelativePath = "Boat.ClientApp\Client\"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boat.Bff", "Boat.Bff\Boat.Bff.csproj", "{E77A8B0A-166A-B5D1-FAC0-CFF4F4FE04BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,14 +103,14 @@ Global
 		{7C6A0967-D16F-4D48-943D-CD51123495B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C6A0967-D16F-4D48-943D-CD51123495B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C6A0967-D16F-4D48-943D-CD51123495B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E64D6A6A-2F64-4A81-ACA2-DDC5BB642737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E64D6A6A-2F64-4A81-ACA2-DDC5BB642737}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E64D6A6A-2F64-4A81-ACA2-DDC5BB642737}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E64D6A6A-2F64-4A81-ACA2-DDC5BB642737}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5DDDA797-62D7-3212-0E7A-6D2F46AD7208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DDDA797-62D7-3212-0E7A-6D2F46AD7208}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DDDA797-62D7-3212-0E7A-6D2F46AD7208}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DDDA797-62D7-3212-0E7A-6D2F46AD7208}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{E77A8B0A-166A-B5D1-FAC0-CFF4F4FE04BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E77A8B0A-166A-B5D1-FAC0-CFF4F4FE04BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E77A8B0A-166A-B5D1-FAC0-CFF4F4FE04BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E77A8B0A-166A-B5D1-FAC0-CFF4F4FE04BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,7 +126,6 @@ Global
 		{630039EF-95C1-4A99-80B0-D524E8FEBD65} = {BFC94DF6-F147-43B7-91FC-496575EDF7E5}
 		{DDADCA5D-2E6B-4525-8EF5-9DFFFC17C4E4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{7C6A0967-D16F-4D48-943D-CD51123495B8} = {BFC94DF6-F147-43B7-91FC-496575EDF7E5}
-		{E64D6A6A-2F64-4A81-ACA2-DDC5BB642737} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{5DDDA797-62D7-3212-0E7A-6D2F46AD7208} = {070EE1DF-7594-4DF2-B5AF-FF933EAC7CDB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Boat.ApiService\BoatApp.ApiService.csproj" />
-    <ProjectReference Include="..\Boat.Gateway\Boat.Gateway.csproj" />
+    <ProjectReference Include="..\Boat.Bff\Boat.Bff.csproj" />
     <ProjectReference Include="..\Boat.Web\Boat.Web.csproj" />
   </ItemGroup>
 

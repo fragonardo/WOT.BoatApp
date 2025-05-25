@@ -1,3 +1,5 @@
+using Aspire.Hosting;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var sqldb = builder.AddSqlServer("sql")
@@ -7,23 +9,28 @@ var sqldb = builder.AddSqlServer("sql")
 
 var cache = builder.AddRedis("cache");
 
-var apiService = builder.AddProject<Projects.BoatApp_ApiService>("apiservice")    
+var apiService = builder.AddProject<Projects.BoatApp_ApiService>("boat-service")
     .WithReference(cache)
     .WaitFor(cache)
     .WithReference(sqldb)
     .WaitFor(sqldb)
-    .WithExternalHttpEndpoints();
+    ;
 
-builder.AddNpmApp("Angular", "../Boat.ClientApp/Client")
-    .WithReference(apiService)
-    .WaitFor(apiService)    
+var bff = builder.AddProject<Projects.Boat_Bff>("boat-bff")
+    .WithReference(apiService)    
+    .WithExternalHttpEndpoints()
+    ;
+
+
+var client = builder.AddNpmApp("Angular", "../Boat.ClientApp/Client")
+    .WithReference(bff)
+    .WaitFor(bff)    
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile()
-    .WithEnvironment("API_BASE_URL", apiService.GetEndpoint("http")); 
+    .WithEnvironment("API_BASE_URL", bff.GetEndpoint("http"));
 
-//builder.AddProject<Projects.Boat_Gateway>("boat-gateway")
-//   .WithReference(apiService)
-//   .WaitFor(apiService)
-//   .WithExternalHttpEndpoints();
+
+
+
 
 builder.Build().Run();
