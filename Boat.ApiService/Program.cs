@@ -31,14 +31,12 @@ builder.Services.AddMediatR(cfg =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("allowAll",policy =>
                       {
-                          policy
-                          //.WithOrigins("http://localhost:5381")
+                          policy                          
                           .AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod()
-                          //.AllowCredentials()
                           ;
                       });
 });
@@ -61,7 +59,12 @@ app.MapDefaultEndpoints();
 
 app.MapBoatsApi();
 
-app.UseHttpsRedirection();
+if(!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
+app.UseCors("allowAll");
 
 app.UseCors();
 

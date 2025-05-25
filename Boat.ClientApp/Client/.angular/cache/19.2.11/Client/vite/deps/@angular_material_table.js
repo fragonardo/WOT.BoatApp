@@ -10,7 +10,7 @@ import {
   _isNumberValue,
   coerceElement,
   coerceNumberProperty
-} from "./chunk-L4755KAX.js";
+} from "./chunk-DSF7IWFZ.js";
 import {
   BidiModule,
   Directionality

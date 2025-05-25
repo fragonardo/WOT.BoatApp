@@ -1,4 +1,6 @@
 export const environment = {
-    production: true,
-    apiUrl: "http://localhost:5381/api"
+  production: false,
+  get apiBaseUrl() {
+    return (window as any)['env']?.API_BASE_URL || 'http://localhost:5000';
+  }
 };

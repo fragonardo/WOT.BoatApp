@@ -2872,12 +2872,12 @@ var MatCommonModule = class _MatCommonModule {
 })();
 
 export {
-  Platform,
-  normalizePassiveListenerOptions,
-  _getEventTarget,
-  _bindEventWithOptions,
   isFakeMousedownFromScreenReader,
   isFakeTouchstartFromScreenReader,
+  _getEventTarget,
+  _bindEventWithOptions,
+  Platform,
+  normalizePassiveListenerOptions,
   coerceNumberProperty,
   _isNumberValue,
   coerceElement,
@@ -2885,4 +2885,4 @@ export {
   _CdkPrivateStyleLoader,
   MatCommonModule
 };
-//# sourceMappingURL=chunk-L4755KAX.js.map
+//# sourceMappingURL=chunk-DSF7IWFZ.js.map
