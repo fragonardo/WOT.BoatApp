@@ -41,7 +41,7 @@ builder.Services.AddReverseProxy()
         }
     );
 
-var allowedOrigin = "http://localhost:4200"; // ou l’URL de ton Angular
+var allowedOrigin = "http://localhost:4200"; 
 
 builder.Services.AddCors(options =>
 {
